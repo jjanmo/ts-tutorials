@@ -8,7 +8,6 @@ function fetchUser() {
   fetch(API_URL)
     .then((res) => res.json())
     .then((json) => {
-      console.log(json);
       const {
         name,
         address: { city, street, suite },
