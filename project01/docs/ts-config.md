@@ -133,9 +133,11 @@
 
 ### 타입스크립트 실행 자동화
 
-#### 노드 환경에서의 설정
+> There are sample projects in config-ts directory.
 
 앞서 본 것처럼 타입스크립트는 컴파일 단계와 컴파일된 자바스크립트 파일의 실행 단계, 2단계를 통해서 실행이 된다. 작은 프로젝트에서는 크게 상관이 없을수도 있지만 이 과정을 매번 반복한다면 굉장히 비효율적인 과정을 경험하게 될 것이다. 그래서 이 부분을 자동화할 수 있는 설정을 하는 것이 개발 생산성 향상을 위해서 좋다.
+
+#### 노드 환경에서의 설정
 
 - 방법1
 
@@ -171,7 +173,48 @@
 
 #### 브라우저 환경에서의 설정
 
-TechStack
+브라우저 환경에서는 브라우저를 실행하는 다양한 서버를 이용하면 생각보다 쉽게 환경설정을 할 수 있다. 예를 들어서 `live-server(vs-code extension)` 혹은 `lite-server` 라이브러리를 사용하여 `tsc -w`와 연결하면 소스코드가 변경되어 컴파일이 일어날 때마다 서버가 재시작되어 동기화시킬 수 있다.
+
+```json
+  "scripts": {
+    "build:watch": "tsc -w",
+    "start:server": "lite-server",
+    "start": "concurrently 'npm run build:watch' 'npm run start:server'"
+  }
+```
+
+> 위 코드는 lite-server를 이용해서 설정한 것이다. lite-server를 npm을 통해서 설치하여 사용하면 된다. 이와 비슷하게 live-server는 확장 프로그램을 설치하고 HTML에 컴파일된 js파일을 연결하고 script의 명령어는 `build:watch`만 사용하면된다.
+
+위 방법 외에도 프런트엔드 개발환경을 구성하는 번들러(webpack or vite ...)을 이용하는 방법도 있다. webpack과 vite를 이용해서 이를 개발환경을 구성해보자.
+
+- 방법1
+
+  > `webpack`을 이용한 실행환경 구성
+
+- 방법2
+
+  > `vite`를 이용한 실행환경 구성
+
+  <details>
+  <summary>📌 여기서 잠깐, <b>vite</b> 가 뭐지??</summary>
+  vite는 프런트엔드 빌드 시스템을 구축하는 도구이다. 브라우저에서 지원하는 ES Module 및 네이티브 언어로 작성된 자바스크립트 도구 등을 활용해서 좀 더 빠른 번들링과 다양한 기능을 제공하여 프런트엔드 개발 환경의 생산성을 향상시킬 수 있게 만들어진 도구로 점차적으로 인기를 얻어가고 있는 추세이다.([2021년 라이징 스타에서 2위 차지](https://risingstars.js.org/2021/ko))
+
+  개인적으로 프로젝트를 vite를 이용하여 만들어본 결과, 웹팩과는 비교할 수 없을 정도의 단순하고 명료한 설정과정이 가장 마음에 들었다. 템플릿에 맞춰서 명령어만 적으면 빠르게 해당 포멧의 기본 프로젝트 셋팅이 끝나서 별다른 러닝커브없이 시작할 수 있었다. 하지만, 그 내부과정이 궁금하다면, 당연히 공식문서를 찾아보고 좀 더 탐구해볼 가치가 있다고 생각한다. 더 자세한 내용은 [공식문서](https://vitejs-kr.github.io/)로 ㄱㄱ!
+  </details>
+
+  ```shell
+    # project 시작
+    # npm init vite@latest [프로젝트 이름] --template [template type]
+    npm init vite@latest myapp --template vanilla-ts
+
+    # 프로젝트로 이동 후 의존성 라이브러리 설치
+    npm install
+
+    # 프로젝트 실행(서버실행)
+    npm run dev
+  ```
+
+  위의 명령어 대로 실행을 하면 vite기반의 (바닐라) 타입스크립트 개발환경이 만들어진다. 웹팩과는 다르게 별로 신경써야 할 부분이 없다. 단지, 어떤 템플릿을 사용할 것인지에 대해서만 선택하면 된다. 템플릿 타입에는 `vanilla`, `vanilla-ts`, `vue`, `vue-ts`, `react`, `react-ts`, `preact`, `preact-ts`, `lit-element`, `lit-element-ts`, `svelte`, `svelte-ts` 를 제공한다.
 
 ## Ref
 
