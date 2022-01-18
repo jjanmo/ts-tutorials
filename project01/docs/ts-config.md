@@ -76,7 +76,9 @@
     // → 아래 8가지 설정은 타입을 얼마나 엄격하게 설정하는지에 대한 속성이다. 일반적으로 strict 설정이 true로 권장된다.
 
     "strict": true, // 모든 타입을 엄격하게 검사한다.
-    // "noImplicitAny": true,                 /* Raise error on expressions and declarations with an implied 'any' type. */
+    "noImplicitAny": true,
+    // 암묵적 any에 대한 설정이다. true인 경우, any 타입을 명시적으로 설정해줘야한다.
+
     "strictNullChecks": true,
     // 엄격한 null check, undefined 혹은 null이 될 수 있는 부분에 있어서 에러 메세지를 보여준다.
 
@@ -96,7 +98,9 @@
     // "typeRoots": [],                       /* List of folders to include type definitions from. */
     // "types": [],                           /* Type declaration files to be included in compilation. */
     // "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
-    "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
+    "esModuleInterop": true,
+    // CommonJS방식으로 내보낸 모듈을 ES모듈 방식으로 불러들여서 사용할 수 있게 할지에 대한 여부 설정
+
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
     // "allowUmdGlobalAccess": true,          /* Allow accessing UMD globals from modules. */
 
@@ -113,7 +117,9 @@
     /* Advanced Options */
     "skipLibCheck": true,
     // 사용하는 라이브러리의 타입 검사를 넘어갈 수 있게 하는 옵션으로서 true로 설정함으로서 컴파일하는 시간을 줄일 수 있다.
-    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
+
+    "forceConsistentCasingInFileNames": true
+    // 같은 파일에 대한 일관되지 않은 참조를 허용하지 않을지 여부를 설정
   }
 }
 ```
@@ -131,7 +137,7 @@
 
 - 브라우저 환경에서는 html파일에서 컴파일된 자바스크립트 파일을 불러와서 사용한다. 노드 환경에서는 컴파일된 자바스크립트 파일을 `node` 명령어를 통해서 실행시킨다.
 
-### 타입스크립트 실행 자동화
+### 타입스크립트 빌드 환경 구성 설정 및 자동화
 
 > There are sample projects in config-ts directory.
 
@@ -191,6 +197,20 @@
 
   > `webpack`을 이용한 실행환경 구성
 
+  > > <b>📌 좀 더 생각해보기</b>(22.01.17) 실습 중에 오류가 뜨면서 작동함...😭 아마 추가적인 로더 설정이 필요한데 아직 그 부분을 해결하지 못함.
+
+  타입스크립트를 <u>무엇으로 번들링하는가</u>에 따라서 추가해야할 패키지가 달라진다. 각각 장단점이 존재한다.
+
+  - `tsc + babel-loader + @babel/preset-typescript + webpack-server`
+
+    위와 같은 조합은 tsc는 타입체킹용, babel은 타입스크립트의 트랜스파일용으로 각각 사용할 수 있다. 특히 @babel/preset-typescript를 통해서 babel이 타입스크립트를 이해할 수 있게 되었다.
+
+  - `ts-loader + webpack-server`
+
+    ts-loader는 webpack에서 타입스크립트를 인지할 수 있도록 해주는 로더이다. ts-loader는 내부적으로 tsc를 이용하기 때문에 tsconfig.json 설정에 따라서 컴파일을 한다. 그렇기 때문에 강력한 타입 체크가 이루어질 수 있다. 하지만 빌드 시간이 오래걸릴 수 있다는 단점이 존재한다.
+
+  ✅ 이 외에도 좀 더 활용도 높은 기술들이 나오고 있고 무엇을 사용하든 현재 어떤 불편함을 갖고 있는지, 어떤 부분에 좀 더 초점을 맞출지에 대해서 조합/기술을 선택하면 될 것이라고 생각한다.
+
 - 방법2
 
   > `vite`를 이용한 실행환경 구성
@@ -223,3 +243,5 @@
 - [{ tsconfig.json } 제대로 알고 사용하기](https://velog.io/@sooran/tsconfig.json-%EC%A0%9C%EB%8C%80%EB%A1%9C-%EC%95%8C%EA%B3%A0-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0)
 
 - [tsconfig.json 주요 설정](https://kay0426.tistory.com/69#recentComments)
+
+- [제품 운영 잘하기](https://techblog.woowahan.com/6465/)
