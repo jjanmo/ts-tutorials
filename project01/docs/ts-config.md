@@ -20,6 +20,8 @@
 
 ### tsconfig.json 중요 옵션 설명
 
+> 아래 옵션은 `tsc --init`을 통해서 만들어진 `tsconfig.json` 파일의 내용 중에서 필요한 부분은 좀 더 이해하기 쉽게 한국말로 적어놓은 것이다. 영어로 적힌 옵션은 원본 그대로의 내용이다.
+
 ```json
 {
   // ✅ 어떤 파일을 선택할지 혹은 제외할지에 대한 옵션
@@ -38,7 +40,7 @@
     // → 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT' ...
 
     "module": "commonjs",
-    // 모듈을 어떤 방식으로 나타낼지에 대해 설정한다.
+    // 모듈을 어떤 방식으로 나타낼지에 대해 설정한다.(자바스크립트 파일간 모듈을 임포트할 때, 어떤 문법을 쓸지 정하는 설정)
     // → 'none', 'commonjs (default)', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'
 
     // "lib": [],
@@ -64,6 +66,7 @@
     "rootDir": "./",
     // 가장 상위의 디렉토리를 설정합니다. 일반적으로 설정이 없으면, tsconfig.json파일이 존재하는 곳을 루트 디렉토리로 인식한다.
     // → 상위 디렉토리로 설정한 위치부터 그대로 컴파일되어서 디렉토리 구조를 유지한채 파일만 컴파일되어서 outDir에 위치하게 된다.
+
     // "composite": true,                     /* Enable project compilation */
     // "tsBuildInfoFile": "./",               /* Specify file to store incremental compilation information */
     // "removeComments": true,                /* Do not emit comments to output. */
@@ -197,7 +200,7 @@
 
   > `webpack`을 이용한 실행환경 구성
 
-  > > <b>📌 좀 더 생각해보기</b>(22.01.17) 실습 중에 오류가 뜨면서 작동함...😭 아마 추가적인 로더 설정이 필요한데 아직 그 부분을 해결하지 못함.
+  > > ~~<b>📌 좀 더 생각해보기</b>(22.01.17) 실습 중에 오류가 뜨면서 작동함...😭 아마 추가적인 로더 설정이 필요한데 아직 그 부분을 해결하지 못함.~~ solved!!
 
   타입스크립트를 <u>무엇으로 번들링하는가</u>에 따라서 추가해야할 패키지가 달라진다. 각각 장단점이 존재한다.
 
