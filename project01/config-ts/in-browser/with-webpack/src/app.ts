@@ -9,7 +9,7 @@ const render = (value: number): void => {
 };
 
 function init(): void {
-  const sum = add(50, 40);
+  const sum = add(50, 20);
   render(sum);
 }
 

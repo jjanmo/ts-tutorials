@@ -5,17 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "start:dev": "webpack serve",
-    "test": "webpack serve"
+    "start:dev": "webpack serve"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.16.7",
-    "@babel/preset-env": "^7.16.8",
-    "@babel/preset-typescript": "^7.16.7",
-    "babel-loader": "^8.2.3",
     "clean-webpack-plugin": "^4.0.0",
     "ts-loader": "^9.2.6",
     "webpack": "^5.66.0",
