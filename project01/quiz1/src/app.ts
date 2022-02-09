@@ -40,7 +40,7 @@ function logFirstTodo(): Todo {
 }
 
 function showCompleted(): Todo[] {
-  return todoItems.filter((item) => item.done);
+  return todoItems.filter((item: Todo): boolean => item.done);
 }
 
 // TODO: 아래 함수의 내용을 채워보세요. 아래 함수는 `addTodo()` 함수를 이용하여 2개의 새 할 일을 추가하는 함수입니다.
