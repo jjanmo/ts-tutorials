@@ -1,0 +1,21 @@
+{
+  "name": "project02",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start:dev": "nodemon --exec 'ts-node' ./src/app.ts",
+    "start:run": "node ./dist/app.js",
+    "build:watch": "tsc -w",
+    "start": "concurrently 'npm run build:watch' 'npm run start:run'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.5.0"
+  }
+}
