@@ -17,4 +17,8 @@
 
 - [Type Alias](./project01//docs/type-alias.md)
 
+- [Union type & Intersection type](./project01//docs/unions-intersection.md)
+
+- [Enum](./project01//docs/enum.md)
+
 </details>
