@@ -1,6 +1,6 @@
 # Typescript Tutorials
 
-> 해당 저장소는 타입스크립트를 배우고 공부하고 재미있는 썸띵을 만드는 과정 등을 기록하는 공간입니다.
+> 해당 저장소는 타입스크립트를 알아가면서 재미있는 썸띵을 만드는 과정을 코드로 기록하는 공간입니다.
 
 ## Project01 - Part1
 
@@ -20,5 +20,7 @@
 - [Union type & Intersection type](./project01//docs/unions-intersection.md)
 
 - [Enum](./project01//docs/enum.md)
+
+- [Generic](./project01//docs/generic.md)
 
 </details>
