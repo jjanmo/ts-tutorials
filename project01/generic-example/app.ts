@@ -71,6 +71,8 @@ function createOptions(data: any, target: any) {
   const created = data.map(
     (option: any) => `<option value=${option.text}>${option.text}</option>`
   );
+  const defaultOption = '<option value="">Choose an option</option>';
+  created.unshift(defaultOption);
 
   target.innerHTML = created.join('');
 }
