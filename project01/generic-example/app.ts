@@ -51,8 +51,7 @@ function handleLanguageChange(e: Event) {
   const selected: string = (e.target as HTMLSelectElement).value;
   const src = languageOptions.data.filter(
     (option) => option.value === selected
-  )[0].url;
-  console.log(src);
+  )[0]?.url;
   const $section = document.querySelector('#language-section') as HTMLElement;
   renderImage($section, src);
 }
