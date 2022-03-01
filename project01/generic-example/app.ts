@@ -1,64 +1,5 @@
-const animalOptions = [
-  {
-    text: 'cat',
-    url: './images/animals/cat.jpg',
-  },
-  {
-    text: 'fox',
-    url: './images/animals/fox.jpg',
-  },
-  {
-    text: 'hamster',
-    url: './images/animals/hamster.jpg',
-  },
-  {
-    text: 'lion',
-    url: './images/animals/lion.jpg',
-  },
-  {
-    text: 'pig',
-    url: './images/animals/pig.jpg',
-  },
-  {
-    text: 'rabbit',
-    url: './images/animals/rabbit.jpg',
-  },
-];
-
-const languageOptions = [
-  {
-    text: 'c#',
-    url: './images/languages/c-sharp.png',
-  },
-  {
-    text: 'go',
-    url: './images/languages/go.png',
-  },
-  {
-    text: 'java',
-    url: './images/languages/java.png',
-  },
-  {
-    text: 'javascript',
-    url: './images/languages/javascript.png',
-  },
-  {
-    text: 'python',
-    url: './images/languages/python.png',
-  },
-  {
-    text: 'ruby',
-    url: './images/languages/ruby.png',
-  },
-  {
-    text: 'rust',
-    url: './images/languages/rust.png',
-  },
-  {
-    text: 'typescript',
-    url: './images/languages/typescript.png',
-  },
-];
+import { Options } from './types';
+import { animalOptions, languageOptions } from './data';
 
 const $animalSelect = document.querySelector(
   '#animal-select'
@@ -67,37 +8,50 @@ const $languageSelect = document.querySelector(
   '#language-select'
 ) as HTMLSelectElement;
 
-function createOptions(data: any, target: any) {
-  const created = data.map(
-    (option: any) => `<option value=${option.text}>${option.text}</option>`
+function createOptions<T>(options: Options): [HTMLElement, string[]] {
+  const _target = options.target;
+  const _options = options.data.map(
+    (option: any) => `<option value=${option.value}>${option.value}</option>`
   );
-  const defaultOption = '<option value="">Choose an option</option>';
-  created.unshift(defaultOption);
+  const defaultOption: string = `<option value="">Choose an option</option>`;
+  _options.unshift(defaultOption);
 
-  target.innerHTML = created.join('');
+  return [_target, _options];
 }
 
-function renderImage(target: HTMLElement, src: string) {
+function render() {
+  const [target1, options1] = createOptions(animalOptions);
+  target1.innerHTML = options1.join('');
+
+  const [target2, options2] = createOptions(languageOptions);
+  target2.innerHTML = options2.join('');
+}
+
+function renderImage(target: HTMLElement, src: string | undefined) {
+  if (!src) return;
+
   if (target.lastElementChild?.tagName === 'IMG')
     target.lastElementChild.remove();
-
   const $image = document.createElement('img');
   $image.src = src;
   $image.classList.add('image');
   target.append($image);
 }
 
-function handleAnimalChange(e: any) {
-  const selected: string = e.target.value;
-  const src = animalOptions.filter((option) => option.text === selected)[0].url;
+function handleAnimalChange(e: Event) {
+  const selected = (e.target as HTMLSelectElement).value;
+  const src = animalOptions.data.filter(
+    (option) => option.value === selected
+  )[0]?.url;
   const $section = document.querySelector('#animal-section') as HTMLElement;
   renderImage($section, src);
 }
 
-function handleLanguageChange(e: any) {
-  const selected: string = e.target.value;
-  const src = languageOptions.filter((option) => option.text === selected)[0]
-    .url;
+function handleLanguageChange(e: Event) {
+  const selected: string = (e.target as HTMLSelectElement).value;
+  const src = languageOptions.data.filter(
+    (option) => option.value === selected
+  )[0].url;
   console.log(src);
   const $section = document.querySelector('#language-section') as HTMLElement;
   renderImage($section, src);
@@ -107,8 +61,7 @@ function init() {
   $animalSelect.addEventListener('change', handleAnimalChange);
   $languageSelect.addEventListener('change', handleLanguageChange);
 
-  createOptions(animalOptions, $animalSelect);
-  createOptions(languageOptions, $languageSelect);
+  render();
 }
 
 init();

@@ -1,8 +1,9 @@
-export type OptionType = 'animal' | 'language';
-
-export interface Option<T> {
-  type: T;
+export interface Option {
   value: string;
   url: string;
-  selected: boolean;
+}
+
+export interface Options {
+  target: HTMLElement;
+  data: Option[];
 }
