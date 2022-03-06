@@ -10,10 +10,13 @@ interface Contact {
   phones: PhoneNumberDictionary;
 }
 
-// api
-// TODO: 아래 함수의 반환 타입을 지정해보세요.
+enum PhoneType {
+  Home = 'home',
+  Office = 'office',
+  Studio = 'studio',
+}
+
 function fetchContacts(): Promise<Contact[]> {
-  // TODO: 아래 변수의 타입을 지정해보세요.
   const contacts: Contact[] = [
     {
       name: 'Tony',
@@ -56,20 +59,18 @@ function fetchContacts(): Promise<Contact[]> {
 
 // main
 class AddressBook {
-  // TODO: 아래 변수의 타입을 지정해보세요.
-  contacts = [];
+  contacts: Contact[] = [];
 
   constructor() {
     this.fetchData();
   }
 
-  fetchData() {
-    fetchContacts().then((response: any) => {
+  fetchData(): void {
+    fetchContacts().then((response) => {
       this.contacts = response;
     });
   }
 
-  /* TODO: 아래 함수들의 파라미터 타입과 반환 타입을 지정해보세요 */
   findContactByName(name: string): Contact[] {
     return this.contacts.filter((contact: Contact) => contact.name === name);
   }
@@ -80,7 +81,15 @@ class AddressBook {
     );
   }
 
-  findContactByPhone(phoneNumber: number, phoneType: string): Contact[] {
+  /**
+   *
+   * @param phoneType
+   * → 이넘을 사용할때의 장점
+   *   1) 타입의 범위도 좁히고, 가독성도 높일 수 있다.
+   *   2) 해당 메소드를 사용할 때 나타날 수 있는 오타를 쉽게 잡을 수 있다. 자동완성 기능으로 이넘에 정해진
+   *      값만 나타나게 된다.
+   */
+  findContactByPhone(phoneNumber: number, phoneType: PhoneType): Contact[] {
     return this.contacts.filter(
       (contact: Contact) => contact.phones[phoneType].num === phoneNumber
     );
@@ -90,14 +99,13 @@ class AddressBook {
     this.contacts.push(contact);
   }
 
-  displayListByName() {
+  displayListByName(): string[] {
     return this.contacts.map((contact: Contact) => contact.name);
   }
 
-  displayListByAddress() {
+  displayListByAddress(): string[] {
     return this.contacts.map((contact: Contact) => contact.address);
   }
-  /* ------------------------------------------------ */
 }
 
 new AddressBook();
