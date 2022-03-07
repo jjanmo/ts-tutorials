@@ -23,4 +23,14 @@
 
 - [Generic](./project01//docs/generic.md)
 
+- [Type Inference](./project01/notes/type-inference.ts)
+
+- [Type Inference](./project01/notes/type-inference.ts)
+
+- [Type Assertion](./project01/notes/type-assertion.ts)
+
+- [Type Guard](./project01/notes/type-guard.ts)
+
+- [Type Compatibility](./project01/notes/type-compatibility.ts)
+
 </details>

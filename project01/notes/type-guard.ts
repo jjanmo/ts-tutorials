@@ -32,6 +32,7 @@ console.log(
 );
 
 // 타입가드를 사용한 방법 ⭐️
+// →  target is Developer : target 타입이 Developer 이냐 라는 말로 결과값은 boolean이 된다.
 function isDeveloper(target: Person | Developer): target is Developer {
   return (target as Developer).type !== undefined;
 }
