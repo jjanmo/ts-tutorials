@@ -43,7 +43,7 @@ const obj: T1 = {
   name: 'jjanmo',
 };
 
-// ✅  2) Required<T>
+// ✅  2) Required<T> 💫 (새로운 것들 존재!)
 // T의 모든 프로퍼티가 필수로 설정된 타입을 구성합니다.
 /*
 관련 내용 : Mapping Modifiers - 2가지 존재
@@ -70,7 +70,7 @@ type MyPick<T, U extends keyof T> = {
 
 type T4 = MyPick<TodoItem, 'title' | 'completed'>;
 
-// ✅  5) Record<Keys, Value>
+// ✅  5) Record<Keys, Value> ⭐️  (개인적으로 어려움)
 // 타입 T의 프로퍼티의 집합 K로 타입을 구성합니다. 이 유틸리티는 타입의 프로퍼티들을 다른 타입에 매핑시키는 데 사용될 수 있습니다.
 
 // ✅  6) Exclude<T, Excluded>
@@ -82,15 +82,64 @@ type T6_1 = MyExclude<'a' | 'b' | 'c', 'a'>; // "b" | "c"
 type T6_2 = MyExclude<'a' | 'b' | 'c', 'a' | 'b'>; // "c"
 type T6_3 = MyExclude<string | number | (() => void), Function>; // string | number
 
-// 7) NonNullable<T>
-//
+// ✅ 7) MyNonNullable<T>
+// T에서 null 과 undefined를 제외한 타입을 구성합니다.
 
-// 8) Extract<T, Extracted>
+type MyNonNullable<T> = T extends null | undefined ? never : T;
 
-// 9) Omit<T, Keys>
+type T7_1 = MyNonNullable<string | number | undefined>; // string | number
+type T7_2 = MyNonNullable<string[] | null | undefined>; // string[]
 
-// 10) ConstructorParameters<ClassConstructor>
+// ✅ 8) Extract<T, Extracted>
+// T에서 U에 할당 할 수 있는 모든 속성을 추출하여 타입을 구성합니다.
 
-// 11) ReturnType<Function>
+type MyExtract<T, U> = T extends U ? T : never;
 
-// 12) InstanceType<ClassConstructor>
+type T8_1 = MyExtract<'a' | 'b' | 'c', 'a' | 'f'>; // "a"
+type T8_2 = MyExtract<string | number | (() => void), Function>; // () => void
+
+// ✅ 9) Omit<T, Keys>
+// T에서 모든 프로퍼티를 선택한 다음 K를 제거한 타입을 구성합니다.
+
+// 내 풀이
+type MyOmit1<T, K> = {
+  [key in keyof T as key extends K ? never : key]: T[key];
+};
+
+// builtin
+type MyOmit2<T, K> = {
+  [P in Exclude<keyof T, K>]: T[P];
+};
+/*
+Step1
+Exclude<'title' | 'description' | 'completed', 'completed'> => 'title' | 'description'
+
+Step2
+'title' | 'description' 를 mapped type using "in" => {title : string, description : string}
+*/
+
+type T9_1 = MyOmit1<TodoItem, 'completed'>;
+type T9_2 = MyOmit2<TodoItem, 'completed'>;
+
+// ✅ 10) ConstructorParameters<ClassConstructor>
+// ConstructorParameters<T> 타입은 생성자 함수 타입의 모든 매개변수 타입을 추출할 수 있게 해줍니다. 모든 매개변수 타입을 가지는 튜플 타입(T가 함수가 아닌 경우 never)을 생성합니다.
+
+// ✅ 11) ReturnType<Function>
+// 함수 T의 반환 타입으로 구성된 타입을 만듭니다.
+
+// ✅ 12) InstanceType<ClassConstructor>
+// 생성자 함수 타입 T의 인스턴스 타입으로 구성된 타입을 만듭니다.
+
+// ✅ 13) Parameters<T>
+// 함수 타입 T의 매개변수 타입들의 튜플 타입을 구성합니다.
+type MyParameters<T extends (...args: any[]) => void> = any;
+
+// declare function f1(arg: { a: number, b: string }): void
+// type T13_1 = MyParameters<() => string>;  // []
+// type T13_2 = MyParameters<(s: string) => void>;  // [string]
+// type T13_3 = MyParameters<(<T>(arg: T) => T)>;  // [unknown]
+// type T13_4 = MyParameters<typeof f1>;  // [{ a: number, b: string }]
+// type T13_5 = MyParameters<any>;  // unknown[]
+// type T13_6 = MyParameters<never>;  // never
+// type T13_7 = MyParameters<string>;  // 오류
+// type T13_8 = MyParameters<Function>;  // 오류
