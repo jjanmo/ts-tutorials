@@ -1,6 +1,8 @@
 // 유틸 타입 직접 만들어보기
 // https://typescript-kr.github.io/pages/utility-types.html
 
+export {};
+
 type Person = {
   name: string;
   age: number;
@@ -17,7 +19,7 @@ type TodoItem = {
   completed: boolean;
 };
 
-// 1) Partial<T>
+// ✅ 1) Partial<T>
 // T의 모든 프로퍼티를 선택적으로 만드는 타입을 구성합니다.
 type MyPartial<T> = {
   [key in keyof T]?: T[key];
@@ -41,7 +43,7 @@ const obj: T1 = {
   name: 'jjanmo',
 };
 
-// 2) Required<T>
+// ✅  2) Required<T>
 // T의 모든 프로퍼티가 필수로 설정된 타입을 구성합니다.
 /*
 관련 내용 : Mapping Modifiers - 2가지 존재
@@ -55,12 +57,12 @@ type MyRequired<T> = {
 
 type T2 = MyRequired<Todo>;
 
-// 3) Readonly<T>
+// ✅  3) Readonly<T>
 type MyReadonly<T> = { readonly [K in keyof T]: T[K] };
 
 type T3 = MyReadonly<Todo>;
 
-// 4) Pick<T, Keys>
+// ✅  4) Pick<T, Keys>
 // T에서 프로퍼티 K의 집합을 선택해 타입을 구성합니다.
 type MyPick<T, U extends keyof T> = {
   [key in U]: T[key];
@@ -68,11 +70,20 @@ type MyPick<T, U extends keyof T> = {
 
 type T4 = MyPick<TodoItem, 'title' | 'completed'>;
 
-// 5) Record<Keys, Value>
+// ✅  5) Record<Keys, Value>
+// 타입 T의 프로퍼티의 집합 K로 타입을 구성합니다. 이 유틸리티는 타입의 프로퍼티들을 다른 타입에 매핑시키는 데 사용될 수 있습니다.
 
-// 6) Exclude<T, Excluded>
+// ✅  6) Exclude<T, Excluded>
+// T에서 U에 할당할 수 있는 모든 속성을 제외한 타입을 구성합니다.
+
+type MyExclude<T, U> = T extends U ? never : T;
+
+type T6_1 = MyExclude<'a' | 'b' | 'c', 'a'>; // "b" | "c"
+type T6_2 = MyExclude<'a' | 'b' | 'c', 'a' | 'b'>; // "c"
+type T6_3 = MyExclude<string | number | (() => void), Function>; // string | number
 
 // 7) NonNullable<T>
+//
 
 // 8) Extract<T, Extracted>
 
