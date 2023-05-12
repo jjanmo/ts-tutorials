@@ -124,22 +124,63 @@ type T9_2 = MyOmit2<TodoItem, 'completed'>;
 // ✅ 10) ConstructorParameters<ClassConstructor>
 // ConstructorParameters<T> 타입은 생성자 함수 타입의 모든 매개변수 타입을 추출할 수 있게 해줍니다. 모든 매개변수 타입을 가지는 튜플 타입(T가 함수가 아닌 경우 never)을 생성합니다.
 
+type MyConstructorParameters<T extends new (...args: any[]) => {}> = any;
+
+type T10_1 = MyConstructorParameters<ErrorConstructor>; // [(string | undefined)?]
+type T10_2 = MyConstructorParameters<FunctionConstructor>; // string[]
+type T10_3 = MyConstructorParameters<RegExpConstructor>; // [string, (string | undefined)?]
+
 // ✅ 11) ReturnType<Function>
 // 함수 T의 반환 타입으로 구성된 타입을 만듭니다.
 
+type MyReturnType<T extends (...args: any[]) => void> = T extends (
+  ...args: any[]
+) => infer R
+  ? R
+  : never;
+
+declare function f1(): { a: number; b: string };
+type T11_1 = MyReturnType<() => string>; // string
+type T11_2 = MyReturnType<(s: string) => void>; // void
+type T11_3 = MyReturnType<<T>() => T>; // {}
+type T11_4 = MyReturnType<<T extends U, U extends number[]>() => T>; // number[]
+type T11_5 = MyReturnType<typeof f1>; // { a: number, b: string }
+type T11_6 = MyReturnType<any>; // any
+type T11_7 = MyReturnType<never>; // any
+// @ts-expect-error
+type T11_8 = MyReturnType<string>; // 오류
+// @ts-expect-error
+type T11_9 = MyReturnType<Function>; // 오류
+
 // ✅ 12) InstanceType<ClassConstructor>
 // 생성자 함수 타입 T의 인스턴스 타입으로 구성된 타입을 만듭니다.
+
+type MyInstanceType<T extends new (...args: any[]) => void> = any;
+class C {
+  x = 0;
+  y = 0;
+}
+
+type T12_1 = MyInstanceType<typeof C>; // C
+type T12_2 = MyInstanceType<any>; // any
+type T12_3 = MyInstanceType<never>; // any
+// @ts-expect-error
+type T12_4 = MyInstanceType<string>; // 오류
+// @ts-expect-error
+type T12_5 = MyInstanceType<Function>; // 오류
 
 // ✅ 13) Parameters<T>
 // 함수 타입 T의 매개변수 타입들의 튜플 타입을 구성합니다.
 type MyParameters<T extends (...args: any[]) => void> = any;
 
-// declare function f1(arg: { a: number, b: string }): void
-// type T13_1 = MyParameters<() => string>;  // []
-// type T13_2 = MyParameters<(s: string) => void>;  // [string]
-// type T13_3 = MyParameters<(<T>(arg: T) => T)>;  // [unknown]
-// type T13_4 = MyParameters<typeof f1>;  // [{ a: number, b: string }]
-// type T13_5 = MyParameters<any>;  // unknown[]
-// type T13_6 = MyParameters<never>;  // never
-// type T13_7 = MyParameters<string>;  // 오류
-// type T13_8 = MyParameters<Function>;  // 오류
+declare function f1(arg: { a: number; b: string }): void;
+type T13_1 = MyParameters<() => string>; // []
+type T13_2 = MyParameters<(s: string) => void>; // [string]
+type T13_3 = MyParameters<<T>(arg: T) => T>; // [unknown]
+type T13_4 = MyParameters<typeof f1>; // [{ a: number, b: string }]
+type T13_5 = MyParameters<any>; // unknown[]
+type T13_6 = MyParameters<never>; // never
+// @ts-expect-error
+type T13_7 = MyParameters<string>; // 오류
+// @ts-expect-error
+type T13_8 = MyParameters<Function>; // 오류
