@@ -5,7 +5,8 @@
 1. keyof와 extends를 사용해야하는줄은 알았는데 어떻게 사용해야할지 감이 안잡힘
 
    ```ts
-   type MyPick<T, K> = keyof T extends K ? [여기에 뭐라고 표현해야할까?]
+   // 솔직한 생각
+   type MyPick<T, K> = keyof T extends K ? [여기에 뭐라고 표현해야할까?];
 
    ```
 
@@ -65,3 +66,39 @@
   > 위의 예시처럼 원시타입으로만 이루어져 있다면 쉽게 해석할 수 있다. T가 null이나 undefined로 확장가능한지(할당가능한지)를 따져보면 된다. 하지만 함수인 경우는 그 안의 인자와 리턴타입에 따라서 복잡해진다. 우선 쉬운 부분만 정확하게 알아보고 다른건 다음번에 확인해보자.
 
   > `T extends U ? X : Y` : 타입 T가 타입 U로 확장이 가능한지를 따지면 된다.(왼쪽에서 오른쪽으로 해석하는 방향성을 가진다.)
+
+## 풀이 과정 복기 어게인 👀
+
+1. 첫번째
+
+   ```ts
+   type MyPick<T, K> = keyof T extends K ? T : never;
+   ```
+
+2. 두번째
+
+   ```ts
+   type MyPick<T, K> = { [C in keyof T]: T[C] };
+
+   type A = MyPick<Todo, 'title'>;
+   ```
+
+   > A가 Todo와 같은 타입이 됨. `keyof T`가 아니라 `K`여야한다고 생각함
+
+3. 세번째 : **2개의 오류 발생** (따옴표 부분에서)
+
+   ```ts
+   type MyPick<T, K> = { [C in 'K']: T['C'] };
+   ```
+
+   > `Type 'K' is not assignable to type 'string | number | symbol'.`
+
+   > `Type 'C' cannot be used to index type 'T'`
+
+4. 네번째
+
+   타입 K가 'string | number | symbol' 이여야한다는 말에서 현재 내가 사용하는 타입 K는 저것이 아니기때문에 뭔가 제너릭에서 제한을 해야한다는 느낌적인 느낌을 받을 수 있음
+
+   ```ts
+   type MyPick<T, K extends keyof T> = { [C in K]: T[C] };
+   ```
