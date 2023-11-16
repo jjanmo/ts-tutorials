@@ -13,6 +13,6 @@
     "strictNullChecks": true,
     "skipLibCheck": true
   },
-  "include": ["./src"],
-  "exclude": ["node_modules"]
+  "include": ["./src", "archive/my-util-types.ts", "archive/my-util-types.ts"],
+  "exclude": ["node_modules", "archive"]
 }
