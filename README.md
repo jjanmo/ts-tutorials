@@ -39,4 +39,6 @@
 
 > Again [TypeChallege](https://github.com/type-challenges/type-challenges) to become Typescript Ninja 🥷
 
+> [진행도 및 정리문서](project02/docs/Progress.md)
+
 타입스크립트에 대한 이해를 높이기 위해서, 타입챌린지를 다시해보려고 한다. 타입챌린지를 하면 할수록 이게 실무에, 혹은 타입스크립트에 도움이 되나 하는 생각이 많이 들긴했으나, 그래도 타입스크립트의 깊이있게 이해할 수 있는 방법 중에 한가지라고 생각한다. 그리고 두번째이기 때문에 예전과는 또 다른 느낌의 챌린지가 되지않을까 기대한다.
